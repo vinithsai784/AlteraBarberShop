@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32901.82
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteraBarberShop", "AlteraBarberShop.csproj", "{63F3496F-4D77-4534-AFDF-BAC14743B22F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc Application Front", "..\Mvc Application Front\Mvc Application Front.csproj", "{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63F3496F-4D77-4534-AFDF-BAC14743B22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F3496F-4D77-4534-AFDF-BAC14743B22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F3496F-4D77-4534-AFDF-BAC14743B22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F3496F-4D77-4534-AFDF-BAC14743B22F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DECF99FB-659D-4E42-9767-5FB2DDC978E7}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e8ac36061f0c464d996b9783f064d3ba" Name="Diagram1">
+        <EntityTypeShape EntityType="BarbersShopModel.Appointment" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarbersShopModel.Audit" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarbersShopModel.Facial" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarbersShopModel.Status" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarbersShopModel.Style" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarbersShopModel.User" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="BarbersShopModel.FK_AppointmentID_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="BarbersShopModel.FK_FacialId_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="BarbersShopModel.FK_StatusId_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="BarbersShopModel.FK_StyleId_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="BarbersShopModel.FK_UserId_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="BarbersShopModel.FK_UserID_Users_ID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
