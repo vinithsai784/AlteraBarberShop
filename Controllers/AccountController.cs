@@ -1,4 +1,5 @@
 ﻿using AlteraBarberShop.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace AlteraBarberShop.Controllers
         public IHttpActionResult Register(NewUser user)
         {
             bool usernameAlreadyExists = entities.Users.Any(person => person.UserName == user.UserName);
-            if(ModelState.IsValid && !usernameAlreadyExists)
+            if (ModelState.IsValid && !usernameAlreadyExists)
             {
                 using (entities)
                 {
@@ -30,58 +31,52 @@ namespace AlteraBarberShop.Controllers
                     //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = user.UserName }));
                     //return (IHttpActionResult)response;
                 }
-               
+
             }
             return BadRequest(/*HttpStatusCode.InternalServerError*/);
             //BarbersShopEntities entities = new BarbersShopEntities();
-           
+
 
         }
         [System.Web.Http.Route("api/account/Login")]
         [System.Web.Http.HttpPost, System.Web.Http.ActionName("Login")]
         public HttpResponseMessage Login(User userLogin)
         {
-            
+
             if (ModelState.IsValid)
             {
                 using (entities)
                 {
-                    var _currentUser = entities.Users.FirstOrDefault(user => user.UserName == userLogin.UserName && user.PassWord == userLogin.PassWord);
-                    //var _currentUser = entities.Users.Where(user => user.UserName == userLogin.UserName && user.PassWord == userLogin.PassWord).Select(UserId => new User
-                    //{
-                    string userName = userLogin.UserName;
-                    
-                    //PassWord = User.Password,
-                    //}).SingleOrDefault();
-
-                    //if (_currentUser == null)
-                    //{
-                    //    throw(Exception ex);
-                    //}
-
+                    try
                     {
-                        UserId = _currentUser.ID;
-                        //TODO: Redirect To Single app Page with this UserId
-                        Debug.WriteLine("Success &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                        //Redirect("https://localhost:44304/User/Create");
-                        //var newUrl = this.Url.Link("DefaultApi", new
-                        //{
-                        //    Controller = "Appointment",
-                        //    Action = "Appointment"
-                        //});
-                        //var urlBuilder = new UrlHelper(Request.RequestContext);
-                        return Request.CreateResponse(HttpStatusCode.Created,
-                                             new
-                                             {
-                                                 Success = true,
-                                                 RedirectUrl = ("https://localhost:44369/Home/Appointment"),
-                                                 Id = UserId,
-                                                 UserName = userName
 
-                                             }) ;
+                        var _currentUser = entities.Users.FirstOrDefault(user => user.UserName == userLogin.UserName && user.PassWord == userLogin.PassWord);
+                        if (_currentUser != null)
+                        {
+                            string userName = userLogin.UserName;
+                            UserId = _currentUser.ID;
+                            Debug.WriteLine("Success &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                            return Request.CreateResponse(HttpStatusCode.Created,
+                                                 new
+                                                 {
+                                                     Success = true,
+                                                     RedirectUrl = ("https://localhost:44369/Home/index"),
+                                                     Id = UserId,
+                                                     UserName = userName
+
+                                                 });
+                        }
                     }
-                    return null;
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+
+                    }
+
+
+                      
                 }
+                return null;
             }
             return null;
         }
@@ -150,11 +145,44 @@ namespace AlteraBarberShop.Controllers
                     entities.InsertAppointment(user.UserID, user.StyleId, user.FacialId, user.StatusId, Convert.ToDateTime(user.DateTime), user.Address);
                     entities.SaveChanges();
                 }
-                
+
             }
-           Console.Write("User Has been Booked Appointment Suucessfully  ");
+            Console.Write("User Has been Booked Appointment Suucessfully  ");
 
         }
+        //[System.Web.Http.Route("api/Account/put")]
+        //public HttpResponseMessage put(int UserID, Appointment model)
+        //{
+        //    try
+        //    {
+        //        if (UserID == model.UserID)
+        //        {
+        //            entities.Entry(model).State = System.Data.Entity.EntityState.Modified;
+        //            entities.SaveChanges();
+        //            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+        //            return response;
+        //        }
+        //        else
+        //        {
+        //            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.NotModified);
+        //            return response;
+        //        }
 
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+
+        //        return response;
+
+        //    }
+        //}
+        [System.Web.Http.Route("api/Account/GetView")]
+        public Appointment GetView(int UserId)
+        {
+            return entities.Appointments.Find(UserId);
+        }
     }
+    
+
 }

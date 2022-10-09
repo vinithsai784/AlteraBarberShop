@@ -60,8 +60,22 @@ namespace AlteraBarberShop.Controllers
             }
             return null;
         }
-    }
+        [System.Web.Http.Route("api/Admin/Style")]
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult Styles()
+        {
+            IEnumerable<Style> style = entities.HairStyles().Select(sty => new Style()
+            {
+                ID = sty.ID,
+                Style1 = sty.Style,
+                Price = Convert.ToInt32(sty.Price)
 
+            }).ToList<Style>();
+            //IEnumerable<Style> styleList = style;
+            return Ok(style);
+        }
+
+    }
 }
                     
 
