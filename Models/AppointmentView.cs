@@ -5,9 +5,9 @@ using System.Web;
 
 namespace AlteraBarberShop.Models
 {
-    public class AppointmentClass
+    public class AppointmentView
     {
-        internal DateTime? createdDateTime;
+       
 
         public int UserID { get; set; }
         public string DateTime { get; set; }
@@ -15,5 +15,8 @@ namespace AlteraBarberShop.Models
         public int StatusId { get; set; }
         public int FacialId { get; set; }
         public string Address { get; set; }
+        
+        IEnumerable<StylesView> ListOfStyles { get; set; }
+        
     }
 }

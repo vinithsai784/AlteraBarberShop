@@ -17,6 +17,8 @@
         <AssociationConnector Association="BarbersShopModel.FK_StyleId_Id" ManuallyRouted="false" />
         <AssociationConnector Association="BarbersShopModel.FK_UserId_Id" ManuallyRouted="false" />
         <AssociationConnector Association="BarbersShopModel.FK_UserID_Users_ID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BarbersShopModel.StylesView" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="BarbersShopModel.Admin" Width="1.5" PointX="5.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

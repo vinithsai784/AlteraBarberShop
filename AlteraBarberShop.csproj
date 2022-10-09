@@ -58,6 +58,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Cors.5.2.9\lib\net45\System.Web.Cors.dll</HintPath>
@@ -136,6 +137,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.cs">
+      <DependentUpon>BarberShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="AllFacials_Result.cs">
       <DependentUpon>BarberShop.tt</DependentUpon>
     </Compile>
@@ -193,6 +197,7 @@
       <DependentUpon>BarberShop.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Facial.cs">
       <DependentUpon>BarberShop.tt</DependentUpon>
@@ -206,7 +211,7 @@
     <Compile Include="Information_Result.cs">
       <DependentUpon>BarberShop.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AppointmentClass.cs" />
+    <Compile Include="Models\AppointmentView.cs" />
     <Compile Include="Models\DisplayUserName.cs" />
     <Compile Include="Models\ListOfFacials.cs" />
     <Compile Include="Models\NewUser.cs" />
@@ -216,6 +221,9 @@
       <DependentUpon>BarberShop.tt</DependentUpon>
     </Compile>
     <Compile Include="Style.cs">
+      <DependentUpon>BarberShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StylesView.cs">
       <DependentUpon>BarberShop.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">

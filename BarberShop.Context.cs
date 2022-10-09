@@ -33,6 +33,8 @@ namespace AlteraBarberShop
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<Style> Styles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<StylesView> StylesViews { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     
         public virtual int AddFacials(string facial, Nullable<decimal> price)
         {
@@ -307,6 +309,60 @@ namespace AlteraBarberShop
                 new ObjectParameter("Address", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("uspAddUser", userNameParameter, passwordParameter, firstNameParameter, lastNameParameter, contactNumberParameter, addressParameter);
+        }
+    
+        public virtual int uspAddAdmin(string userName, string password, string firstName, string lastName, Nullable<long> contactNumber)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var contactNumberParameter = contactNumber.HasValue ?
+                new ObjectParameter("ContactNumber", contactNumber) :
+                new ObjectParameter("ContactNumber", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("uspAddAdmin", userNameParameter, passwordParameter, firstNameParameter, lastNameParameter, contactNumberParameter);
+        }
+    
+        public virtual int UserRegister(string userName, string password, string firstName, string lastName, Nullable<long> contactNumber, string address)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var contactNumberParameter = contactNumber.HasValue ?
+                new ObjectParameter("ContactNumber", contactNumber) :
+                new ObjectParameter("ContactNumber", typeof(long));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("Address", address) :
+                new ObjectParameter("Address", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserRegister", userNameParameter, passwordParameter, firstNameParameter, lastNameParameter, contactNumberParameter, addressParameter);
         }
     }
 }

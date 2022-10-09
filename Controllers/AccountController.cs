@@ -13,21 +13,35 @@ namespace AlteraBarberShop.Controllers
     public class AccountController : ApiController
     {
         BarbersShopEntities entities = new BarbersShopEntities();
-        private int UserId;
+        public static int UserId;
         //private int count;
-
+        [System.Web.Http.Route("api/account/Register")]
         public IHttpActionResult Register(NewUser user)
         {
+            bool usernameAlreadyExists = entities.Users.Any(person => person.UserName == user.UserName);
+            if(ModelState.IsValid && !usernameAlreadyExists)
+            {
+                using (entities)
+                {
+                    entities.UserRegister(user.UserName, user.Password, user.FirstName, user.LastName, user.ContactNumber, user.Address);
+                    entities.SaveChanges();
+                    return Ok();
+                    //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, user);
+                    //response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = user.UserName }));
+                    //return (IHttpActionResult)response;
+                }
+               
+            }
+            return BadRequest(/*HttpStatusCode.InternalServerError*/);
             //BarbersShopEntities entities = new BarbersShopEntities();
-            entities.uspAddUser(user.UserName, user.Password, user.FirstName, user.LastName, user.ContactNumber, user.Address);
-            entities.SaveChanges();
-            return Ok();
+           
 
         }
         [System.Web.Http.Route("api/account/Login")]
         [System.Web.Http.HttpPost, System.Web.Http.ActionName("Login")]
         public HttpResponseMessage Login(User userLogin)
         {
+            
             if (ModelState.IsValid)
             {
                 using (entities)
@@ -60,7 +74,7 @@ namespace AlteraBarberShop.Controllers
                                              new
                                              {
                                                  Success = true,
-                                                 RedirectUrl = ("https://localhost:44369/Home/Style"),
+                                                 RedirectUrl = ("https://localhost:44369/Home/Appointment"),
                                                  Id = UserId,
                                                  UserName = userName
 
@@ -82,7 +96,7 @@ namespace AlteraBarberShop.Controllers
                 Price = Convert.ToInt32(sty.Price)
 
             }).ToList<Style>();
-            IEnumerable<Style> styleList = style;
+            //IEnumerable<Style> styleList = style;
             return Ok(style);
             //    [System.Web.Http.Route("api/Account/Style")]
             //[System.Web.Http.HttpGet]
@@ -110,20 +124,36 @@ namespace AlteraBarberShop.Controllers
             //return entities.Facials.ToList();
             //return Ok(facial);
         }
+        //[System.Web.Http.Route("api/Account/Appointment")]
+        //[System.Web.Http.HttpPost]
+
+        //public void Appointment(Appointment appointment)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        using (entities)
+        //        {
+        //            //ObjectParameter responseMessage = new ObjectParameter("responseMessage", typeof(string));
+        //            entities.Appointments.Add(appointment);
+        //            entities.SaveChanges();
+        //        }
+        //    }
+        //}
         [System.Web.Http.Route("api/Account/Appointment")]
         [System.Web.Http.HttpPost]
-
-        public void Appointment(Appointment appointment)
+        public void Appointment(AppointmentView user)
         {
             if (ModelState.IsValid)
             {
                 using (entities)
                 {
-                    //ObjectParameter responseMessage = new ObjectParameter("responseMessage", typeof(string));
-                    entities.Appointments.Add(appointment);
+                    entities.InsertAppointment(user.UserID, user.StyleId, user.FacialId, user.StatusId, Convert.ToDateTime(user.DateTime), user.Address);
                     entities.SaveChanges();
                 }
+                
             }
+           Console.Write("User Has been Booked Appointment Suucessfully  ");
+
         }
 
     }

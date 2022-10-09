@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BarbersShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNumer" Type="bigint" />
+          <Property Name="CreatedDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Appointments">
           <Key>
             <PropertyRef Name="ID" />
@@ -75,6 +87,16 @@
           <Property Name="Address" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDateTime" Type="datetime" />
           <Property Name="UpdatedDateTime" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StylesView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Style" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="money" />
         </EntityType>
         <Association Name="FK_AppointmentID_ID">
           <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
@@ -219,6 +241,21 @@
           <Parameter Name="ContactNumber" Type="bigint" Mode="In" />
           <Parameter Name="Address" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="UserRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="ContactNumber" Type="bigint" Mode="In" />
+          <Parameter Name="Address" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="uspAddAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="ContactNumber" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="uspAddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
@@ -228,12 +265,20 @@
           <Parameter Name="Address" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="BarbersShopModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Audit" EntityType="Self.Audit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facials" EntityType="Self.Facials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Styles" EntityType="Self.Styles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StylesView" EntityType="Self.StylesView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StylesView].[Id] AS [Id], 
+    [StylesView].[Style] AS [Style], 
+    [StylesView].[Price] AS [Price]
+    FROM [dbo].[StylesView] AS [StylesView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AppointmentID_ID" Association="Self.FK_AppointmentID_ID">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Audit" EntitySet="Audit" />
@@ -528,6 +573,23 @@
             <Parameter Name="ContactNumber" Mode="In" Type="Int64" />
             <Parameter Name="Address" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="StylesViews" EntityType="BarbersShopModel.StylesView" />
+          <EntitySet Name="Admins" EntityType="BarbersShopModel.Admin" />
+          <FunctionImport Name="uspAddAdmin">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="ContactNumber" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="UserRegister">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="ContactNumber" Mode="In" Type="Int64" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AllFacials_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -577,6 +639,26 @@
           <Property Type="DateTime" Name="CreatedDatetime4" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="UpdatedDateTime4" Nullable="true" Precision="23" />
         </ComplexType>
+        <EntityType Name="StylesView">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Style" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassWord" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumer" Type="Int64" />
+          <Property Name="CreatedDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -736,6 +818,30 @@
           <FunctionImportMapping FunctionImportName="UpdateHairStyles" FunctionName="BarbersShopModel.Store.UpdateHairStyles" />
           <FunctionImportMapping FunctionImportName="UpdateUsers" FunctionName="BarbersShopModel.Store.UpdateUsers" />
           <FunctionImportMapping FunctionImportName="uspAddUser" FunctionName="BarbersShopModel.Store.uspAddUser" />
+          <EntitySetMapping Name="StylesViews">
+            <EntityTypeMapping TypeName="BarbersShopModel.StylesView">
+              <MappingFragment StoreEntitySet="StylesView">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="BarbersShopModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ContactNumer" ColumnName="ContactNumer" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspAddAdmin" FunctionName="BarbersShopModel.Store.uspAddAdmin" />
+          <FunctionImportMapping FunctionImportName="UserRegister" FunctionName="BarbersShopModel.Store.UserRegister" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
