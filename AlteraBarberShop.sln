@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteraBarberShop", "AlteraB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc Application Front", "..\Mvc Application Front\Mvc Application Front.csproj", "{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi", "..\TestApi\TestApi.csproj", "{8BBA0334-843C-408A-ADA6-F38C91268739}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE40EAEE-7A4F-4DCB-92A1-4238B3FCDEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BBA0334-843C-408A-ADA6-F38C91268739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BBA0334-843C-408A-ADA6-F38C91268739}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BBA0334-843C-408A-ADA6-F38C91268739}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BBA0334-843C-408A-ADA6-F38C91268739}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

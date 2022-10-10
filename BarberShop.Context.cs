@@ -223,7 +223,7 @@ namespace AlteraBarberShop
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertAppointment", userIdParameter, styleIdParameter, facialIdParameter, statusIdParameter, dateTimeParameter, addressParameter);
         }
     
-        public virtual int UpdateFacials(Nullable<int> id, string facial, Nullable<decimal> price)
+        public virtual int UpdateFacials(Nullable<int> id, string facial, Nullable<decimal> price, ObjectParameter responsemessage)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -237,10 +237,10 @@ namespace AlteraBarberShop
                 new ObjectParameter("Price", price) :
                 new ObjectParameter("Price", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateFacials", idParameter, facialParameter, priceParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateFacials", idParameter, facialParameter, priceParameter, responsemessage);
         }
     
-        public virtual int UpdateHairStyles(Nullable<int> id, string style, Nullable<decimal> price)
+        public virtual int UpdateHairStyles(Nullable<int> id, string style, Nullable<decimal> price, ObjectParameter responsemessage)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -254,7 +254,7 @@ namespace AlteraBarberShop
                 new ObjectParameter("Price", price) :
                 new ObjectParameter("Price", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHairStyles", idParameter, styleParameter, priceParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateHairStyles", idParameter, styleParameter, priceParameter, responsemessage);
         }
     
         public virtual int UpdateUsers(Nullable<int> userId, string firstName, string lastName, Nullable<long> contactNumber, string address)
@@ -363,6 +363,26 @@ namespace AlteraBarberShop
                 new ObjectParameter("Address", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserRegister", userNameParameter, passwordParameter, firstNameParameter, lastNameParameter, contactNumberParameter, addressParameter);
+        }
+    
+        public virtual ObjectResult<AppointmentsInformation_Result> AppointmentsInformation()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AppointmentsInformation_Result>("AppointmentsInformation");
+        }
+    
+        public virtual ObjectResult<UserInformation_Result> UserInformation()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserInformation_Result>("UserInformation");
+        }
+    
+        public virtual ObjectResult<UserAppointment_Result> UserAppointment()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAppointment_Result>("UserAppointment");
+        }
+    
+        public virtual ObjectResult<UserDetailsList_Result> UserDetailsList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserDetailsList_Result>("UserDetailsList");
         }
     }
 }

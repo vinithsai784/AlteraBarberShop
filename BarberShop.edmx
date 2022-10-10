@@ -196,6 +196,7 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
         </Function>
         <Function Name="AllFacials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="AppointmentInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="AppointmentsInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="DeleteAppointments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -228,11 +229,13 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Facial" Type="varchar" Mode="In" />
           <Parameter Name="Price" Type="money" Mode="In" />
+          <Parameter Name="responsemessage" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="UpdateHairStyles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Style" Type="varchar" Mode="In" />
           <Parameter Name="Price" Type="money" Mode="In" />
+          <Parameter Name="responsemessage" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="UpdateUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -241,6 +244,9 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
           <Parameter Name="ContactNumber" Type="bigint" Mode="In" />
           <Parameter Name="Address" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="UserAppointment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UserDetailsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UserInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UserRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
@@ -552,11 +558,13 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Facial" Mode="In" Type="String" />
             <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="responsemessage" Mode="InOut" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateHairStyles">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Style" Mode="In" Type="String" />
             <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="responsemessage" Mode="InOut" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateUsers">
             <Parameter Name="UserId" Mode="In" Type="Int32" />
@@ -590,6 +598,10 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
             <Parameter Name="ContactNumber" Mode="In" Type="Int64" />
             <Parameter Name="Address" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="AppointmentsInformation" ReturnType="Collection(BarbersShopModel.AppointmentsInformation_Result)" />
+          <FunctionImport Name="UserInformation" ReturnType="Collection(BarbersShopModel.UserInformation_Result)" />
+          <FunctionImport Name="UserAppointment" ReturnType="Collection(BarbersShopModel.UserAppointment_Result)" />
+          <FunctionImport Name="UserDetailsList" ReturnType="Collection(BarbersShopModel.UserDetailsList_Result)" />
         </EntityContainer>
         <ComplexType Name="AllFacials_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -659,6 +671,38 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
           <Property Name="ContactNumer" Type="Int64" />
           <Property Name="CreatedDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="AppointmentsInformation_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="DateTime" Name="DateTime" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="StyleId" Nullable="true" />
+          <Property Type="Int32" Name="FacialId" Nullable="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedDateTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="UpdateddateTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="UserInformation_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="ContactNumber" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserAppointment_Result">
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="ContactNumber" Nullable="true" />
+          <Property Type="DateTime" Name="DateTime" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="UserDetailsList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="ContactNumber" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -842,6 +886,54 @@ warning 6002: The table/view 'BarbersShop.dbo.StylesView' does not have a primar
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="uspAddAdmin" FunctionName="BarbersShopModel.Store.uspAddAdmin" />
           <FunctionImportMapping FunctionImportName="UserRegister" FunctionName="BarbersShopModel.Store.UserRegister" />
+          <FunctionImportMapping FunctionImportName="AppointmentsInformation" FunctionName="BarbersShopModel.Store.AppointmentsInformation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BarbersShopModel.AppointmentsInformation_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="StyleId" ColumnName="StyleId" />
+                <ScalarProperty Name="FacialId" ColumnName="FacialId" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="UpdateddateTime" ColumnName="UpdateddateTime" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserInformation" FunctionName="BarbersShopModel.Store.UserInformation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BarbersShopModel.UserInformation_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserAppointment" FunctionName="BarbersShopModel.Store.UserAppointment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BarbersShopModel.UserAppointment_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserDetailsList" FunctionName="BarbersShopModel.Store.UserDetailsList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BarbersShopModel.UserDetailsList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
